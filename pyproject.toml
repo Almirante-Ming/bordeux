@@ -1,17 +1,24 @@
 [project]
 name = "bordeux"
 version = "0.1.0"
-description = ""
+description = "api de notas com pagina admin para gerenciamento"
 authors = [
     {name = "V. Guilherme",email = "v.guilherme.barreto@gmail.com"}
 ]
 readme = "README.md"
 requires-python = "3.12.*"
 dependencies = [
-    "fastapi (>=0.115.6,<0.116.0)"
+    "fastapi (>=0.115.6,<0.116.0)",
+    "jinja2 (>=3.1.5,<4.0.0)"
 ]
 
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.4"
+ruff = "^0.8.6"
+taskipy = "^1.14.1"
+
