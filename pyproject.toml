@@ -21,6 +21,7 @@ build-backend = 'poetry.core.masonry.api'
 pytest = '^8.3.4'
 ruff = '^0.8.6'
 taskipy = '^1.14.1'
+pytest-cov = "^6.0.0"
 
 [tool.pytest.ini_options]
 pythonpath = '.'
@@ -65,3 +66,11 @@ select = ['I', 'F', 'E', 'W', 'PL', 'PT']
 [tool.ruff.format]
 preview = true
 quote-style = 'single'
+
+[tool.taskipy.tasks]
+run = 'fastapi dev bordeux/app.py'
+pre_test = 'task lint'
+test = 'pytest -s -x --cov=bordeux -vv'
+post_test = 'coverage html'
+lint = 'ruff check . && ruff check . --diff'
+format = 'ruff check . --fix && ruff format .'
