@@ -32,14 +32,14 @@ def write_task(task_id, priority):
 def read_authors():
     return authors
 
-@bordeux.post('/authors/new/{author_name}:{gender}')
-def write_author(gender,author_name):
+@bordeux.post('/authors/new/{author_name}:{nick_name}')
+def write_author(nick_name,author_name):
 
     if author_name in authors:
         raise HTTPException(status_code=401, detail='autor ja existente')
     
     else:
-        authors[author_name]=gender
+        authors[nick_name]=author_name
         return f'autor {author_name} criado com sucesso'
 
         
