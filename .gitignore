@@ -1,5 +1,5 @@
 .pytest_cache
-/bordeux/__pycache__/
+__pycache__
 .env
 .ruff_cache
 .coverage
