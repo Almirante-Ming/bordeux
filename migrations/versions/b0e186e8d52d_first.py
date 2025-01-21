@@ -34,7 +34,7 @@ def upgrade() -> None:
         sa.Column('content', sa.String(50), nullable=False),
         sa.Column('author_id', sa.Integer, sa.ForeignKey('authors.id'), nullable=False),
         sa.Column('date', sa.DateTime, nullable=False),
-        sa.column('priority', sa.String(50), nullable=False)
+        sa.column('priority', sa.String(50))
     )
 def downgrade() -> None:
     op.drop_table('authors')
