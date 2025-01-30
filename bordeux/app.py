@@ -1,22 +1,27 @@
+from http import HTTPStatus
+
 from fastapi import FastAPI, HTTPException
-from fastapi.responses import CORSMiddleware
+from fastapi.middleware.cors import CORSMiddleware
+
+from bordeux.models import author_cad
 
 bordeux = FastAPI()
+
 bordeux.add_middleware(
     CORSMiddleware,
-    allow_origins=['*'],
-    allow_credentials=True,
     allow_methods=['*'],
     allow_headers=['*'],
+    allow_credentials=True,
+    allow_origins=['*']
 )
 
 posts = {}
 authors = {}
 
 
-@bordeux.get('/')
-def read_root():
-    return 'http://127.0.0.1:8000/docs'
+# @bordeux.get('/')
+# def read_root():
+#     pass
 
 
 @bordeux.get('/posts')
@@ -25,30 +30,38 @@ def read_posts():
 
 
 @bordeux.get('/posts/{post_id}')
-def read_posts(post_id):
+def find_post(post_id):
     return posts[post_id]
 
 
-@bordeux.post('/posts/new/')
-def write_post(post_id, priority):
+@bordeux.post('/posts/new/', status_code=HTTPStatus.CREATED)
+def make_post(post_id, priority, author_id, content):
     if post_id in posts:
-        raise HTTPException(status_code=401, detail='tarefa ja existente')
+        raise HTTPException(status_code=HTTPStatus.UNAUTHORIZED, detail='aready exists')
 
     else:
-        posts[post_id] = priority
-        return f'tarefa {post_id} adicionada com sucesso'
+        posts[post_id] = {
+            'priority': priority,
+            'author_id': author_id,
+            'content': content
+        }
+        return f'{post_id} created'
 
 
-@bordeux.get('/author/{author_id}')
+@bordeux.get('/authors')
 def read_authors():
     return authors
 
+@bordeux.get('/authors/{author_id}')
+def find_author(author_id):
+    return authors[author_id]
 
-@bordeux.post('/authors/new/')
+
+@bordeux.post('/authors/new/', status_code=HTTPStatus.CREATED, response_model=author_cad)
 def write_author(nick_name, author_name):
     if author_name in authors:
-        raise HTTPException(status_code=401, detail='autor ja existente')
+        raise HTTPException(status_code=HTTPStatus.UNAUTHORIZED, detail='aready exists')
 
     else:
         authors[nick_name] = author_name
-        return f'autor {author_name} criado com sucesso'
+        return f'{author_name} created'
