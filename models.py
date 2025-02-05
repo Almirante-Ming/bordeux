@@ -27,3 +27,14 @@ class Post(Base):
     date = Column(DateTime, nullable=False)
 
     author = relationship('Author')
+
+class task(Base):
+    __tablename__ = 'tasks'
+    
+    id= Column(Integer, primary_key=True, server_default=text("nextval('task_id_seq'::regclass)"))
+    title= Column(String(50), nullable=False)
+    priority= Column(String(10), nullable=False)
+    author_id= Column(ForeignKey('authors.id'), nullable=False)
+    date= Column(DateTime, nullable=False)
+    
+    author = relationship('Author')

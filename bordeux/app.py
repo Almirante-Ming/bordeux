@@ -3,7 +3,6 @@ from http import HTTPStatus
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
-from bordeux.models import author_cad
 
 bordeux = FastAPI()
 
@@ -57,7 +56,7 @@ def find_author(author_id):
     return authors[author_id]
 
 
-@bordeux.post('/authors/new/', status_code=HTTPStatus.CREATED, response_model=author_cad)
+@bordeux.post('/authors/new/', status_code=HTTPStatus.CREATED)
 def write_author(nick_name, author_name):
     if author_name in authors:
         raise HTTPException(status_code=HTTPStatus.UNAUTHORIZED, detail='aready exists')
